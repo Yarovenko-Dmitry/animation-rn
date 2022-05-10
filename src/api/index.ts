@@ -1,5 +1,12 @@
 import { API_KEY } from '@env';
-import { GenresListType, MovieType, ResultType } from '../types';
+
+import {
+  GenresListType,
+  GetMoviesType,
+  getPathType,
+  MovieType,
+  ResultType,
+} from '../types';
 
 const GENRES: GenresListType = {
   12: 'Adventure',
@@ -24,32 +31,32 @@ const GENRES: GenresListType = {
 };
 const API_URL = `https://api.themoviedb.org/3/discover/movie?api_key=${API_KEY}&sort_by=popularity.desc`;
 
-const getImagePath = (path: string) =>
+const getImagePath: getPathType = path =>
   `https://image.tmdb.org/t/p/w440_and_h660_face${path}`;
-const getBackdropPath = (path: string) =>
+const getBackdropPath: getPathType = path =>
   `https://image.tmdb.org/t/p/w370_and_h556_multi_faces${path}`;
 
-export const getMovies = async () => {
-  const { results } = await fetch(API_URL).then((result) => result.json());
+export const getMovies: GetMoviesType = async () => {
+  const { results } = await fetch(API_URL).then(result => result.json());
   const movies: MovieType[] = results.map(
     ({
+      backdrop_path,
+      genre_ids,
       id,
       original_title,
-      poster_path,
-      backdrop_path,
-      vote_average,
       overview,
+      poster_path,
       release_date,
-      genre_ids,
+      vote_average,
     }: ResultType) => ({
-      key: String(id),
-      title: original_title,
-      poster: getImagePath(poster_path),
       backdrop: getBackdropPath(backdrop_path),
-      rating: vote_average,
       description: overview,
-      releaseDate: release_date,
       genres: genre_ids.map((genre: number) => GENRES[genre]),
+      key: String(id),
+      poster: getImagePath(poster_path),
+      rating: vote_average,
+      releaseDate: release_date,
+      title: original_title,
     }),
   );
 

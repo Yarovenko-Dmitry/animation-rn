@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { FC } from 'react';
+
 import { View, Text, StyleSheet } from 'react-native';
 import { Rating as RatingStars } from 'react-native-ratings';
 
@@ -20,15 +21,15 @@ export const Rating: FC<RatingType> = ({ rating }) => {
 };
 
 const styles = StyleSheet.create({
-  ratingNumber: {
-    marginRight: 4,
-    fontFamily: 'Menlo',
-    fontSize: 14,
-  },
   rating: {
-    flexDirection: 'row',
     alignItems: 'center',
+    flexDirection: 'row',
     justifyContent: 'center',
     marginVertical: 4,
+  },
+  ratingNumber: {
+    fontFamily: 'Menlo',
+    fontSize: 14,
+    marginRight: 4,
   },
 });

@@ -38,3 +38,9 @@ export type ResultType = {
   release_date: string;
   vote_average: number;
 };
+
+export type FetchDataType = () => void;
+
+export type getPathType = (path: string) => string;
+
+export type GetMoviesType = () => Promise<MovieType[]>;

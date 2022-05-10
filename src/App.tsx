@@ -1,5 +1,6 @@
 import * as React from 'react';
-import { FC } from 'react';
+import { FC, useEffect, useRef, useState } from 'react';
+
 import {
   Animated,
   Dimensions,
@@ -12,11 +13,12 @@ import {
 } from 'react-native';
 
 import { getMovies } from './api';
-import { Genres } from './components/Genres';
-import { Rating } from './components/Rating';
-import { Loading } from './components/Loading';
 import { Backdrop } from './components/Backdrop';
-import { MovieType } from './types';
+import { Genres } from './components/Genres';
+import { Loading } from './components/Loading';
+import { Rating } from './components/Rating';
+
+import { FetchDataType, MovieType } from './types';
 
 const { width } = Dimensions.get('window');
 
@@ -26,20 +28,20 @@ const ITEM_SIZE = isIos ? width * 0.72 : width * 0.74;
 const EMPTY_ITEM_SIZE = (width - ITEM_SIZE) / 2;
 
 export const App: FC = () => {
-  const [movies, setMovies] = React.useState<MovieType[]>([]);
-  const scrollX = React.useRef(new Animated.Value(0)).current;
-  React.useEffect(() => {
-    const fetchData = async () => {
+  const [movies, setMovies] = useState<MovieType[]>([]);
+  const scrollX = useRef(new Animated.Value(0)).current;
+  useEffect(() => {
+    const fetchData: FetchDataType = async () => {
       const moviesList = await getMovies();
       setMovies([{ key: 'empty-left' }, ...moviesList, { key: 'empty-right' }]);
     };
 
-    if (movies.length === 0) {
+    if (!movies.length) {
       fetchData();
     }
   }, [movies]);
 
-  if (movies.length === 0) {
+  if (!movies.length) {
     return <Loading />;
   }
 
@@ -50,12 +52,12 @@ export const App: FC = () => {
       <Animated.FlatList
         showsHorizontalScrollIndicator={false}
         data={movies}
-        keyExtractor={(item) => item.key}
+        keyExtractor={item => item.key}
         horizontal
         bounces={false}
         decelerationRate={isIos ? 0 : 0.98}
         renderToHardwareTextureAndroid
-        contentContainerStyle={{ alignItems: 'center' }}
+        contentContainerStyle={styles.contentContainer}
         snapToInterval={ITEM_SIZE}
         snapToAlignment="start"
         onScroll={Animated.event(
@@ -63,7 +65,7 @@ export const App: FC = () => {
           { useNativeDriver: false },
         )}
         scrollEventThrottle={16}
-        renderItem={({ item, index }) => {
+        renderItem={({ index, item }) => {
           if (!item.poster) {
             return <View style={styles.emptyItem} />;
           }
@@ -75,9 +77,9 @@ export const App: FC = () => {
           ];
 
           const translateY = scrollX.interpolate({
+            extrapolate: 'clamp',
             inputRange,
             outputRange: [100, 50, 100],
-            extrapolate: 'clamp',
           });
 
           return (
@@ -109,34 +111,37 @@ export const App: FC = () => {
 };
 
 const styles = StyleSheet.create({
+  animatedContainer: {
+    alignItems: 'center',
+    backgroundColor: 'white',
+    borderRadius: 34,
+    marginHorizontal: SPACING,
+    padding: SPACING * 2,
+  },
   container: {
     flex: 1,
   },
-  posterImage: {
-    width: '100%',
-    height: ITEM_SIZE * 1.2,
-    resizeMode: 'cover',
-    borderRadius: 24,
-    margin: 0,
-    marginBottom: 10,
-  },
-  emptyItem: {
-    width: EMPTY_ITEM_SIZE,
-  },
-  title: {
-    fontSize: 24,
+  contentContainer: {
+    alignItems: 'center',
   },
   description: {
     fontSize: 12,
   },
+  emptyItem: {
+    width: EMPTY_ITEM_SIZE,
+  },
   itemContainer: {
     width: ITEM_SIZE,
   },
-  animatedContainer: {
-    marginHorizontal: SPACING,
-    padding: SPACING * 2,
-    alignItems: 'center',
-    backgroundColor: 'white',
-    borderRadius: 34,
+  posterImage: {
+    borderRadius: 24,
+    height: ITEM_SIZE * 1.2,
+    margin: 0,
+    marginBottom: 10,
+    resizeMode: 'cover',
+    width: '100%',
+  },
+  title: {
+    fontSize: 24,
   },
 });

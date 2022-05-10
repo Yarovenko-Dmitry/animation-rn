@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { FC } from 'react';
+
 import { View, Text, StyleSheet } from 'react-native';
 
 import { GenresType } from '../types';
@@ -19,23 +20,23 @@ export const Genres: FC<GenresType> = ({ genres }) => {
 };
 
 const styles = StyleSheet.create({
+  genre: {
+    borderColor: '#ccc',
+    borderRadius: 14,
+    borderWidth: 1,
+    marginBottom: 4,
+    marginRight: 4,
+    paddingHorizontal: 6,
+    paddingVertical: 2,
+  },
+  genreText: {
+    fontSize: 9,
+    opacity: 0.4,
+  },
   genres: {
     flexDirection: 'row',
     flexWrap: 'wrap',
     justifyContent: 'center',
     marginVertical: 4,
-  },
-  genre: {
-    paddingHorizontal: 6,
-    paddingVertical: 2,
-    borderWidth: 1,
-    borderRadius: 14,
-    borderColor: '#ccc',
-    marginRight: 4,
-    marginBottom: 4,
-  },
-  genreText: {
-    fontSize: 9,
-    opacity: 0.4,
   },
 });
