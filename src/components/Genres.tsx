@@ -1,14 +1,13 @@
-import * as React from "react";
-import { FC } from "react";
-import { View, Text, StyleSheet } from "react-native";
+import * as React from 'react';
+import { FC } from 'react';
+import { View, Text, StyleSheet } from 'react-native';
 
-import { GenresType } from "../types";
-
+import { GenresType } from '../types';
 
 export const Genres: FC<GenresType> = ({ genres }) => {
   return (
     <View style={styles.genres}>
-      {genres.map((genre : string) => {
+      {genres?.map((genre: string) => {
         return (
           <View key={genre} style={styles.genre}>
             <Text style={styles.genreText}>{genre}</Text>
@@ -21,9 +20,9 @@ export const Genres: FC<GenresType> = ({ genres }) => {
 
 const styles = StyleSheet.create({
   genres: {
-    flexDirection: "row",
-    flexWrap: "wrap",
-    justifyContent: "center",
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    justifyContent: 'center',
     marginVertical: 4,
   },
   genre: {
@@ -31,7 +30,7 @@ const styles = StyleSheet.create({
     paddingVertical: 2,
     borderWidth: 1,
     borderRadius: 14,
-    borderColor: "#ccc",
+    borderColor: '#ccc',
     marginRight: 4,
     marginBottom: 4,
   },
@@ -40,4 +39,3 @@ const styles = StyleSheet.create({
     opacity: 0.4,
   },
 });
-

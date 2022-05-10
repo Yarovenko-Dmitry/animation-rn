@@ -1,23 +1,32 @@
-import * as React from "react";
-import { Animated, Dimensions, FlatList, Image, Platform, StyleSheet, View } from "react-native";
-import LinearGradient from "react-native-linear-gradient";
+import * as React from 'react';
+import { FC } from 'react';
+import {
+  Animated,
+  Dimensions,
+  FlatList,
+  Image,
+  Platform,
+  StyleSheet,
+  View,
+} from 'react-native';
+import LinearGradient from 'react-native-linear-gradient';
 
+import { BackdropType } from '../types';
 
-const { width, height } = Dimensions.get("window");
+const { width, height } = Dimensions.get('window');
 
-const ITEM_SIZE = Platform.OS === "ios" ? width * 0.72 : width * 0.74;
+const ITEM_SIZE = Platform.OS === 'ios' ? width * 0.72 : width * 0.74;
 const BACKDROP_HEIGHT = height * 0.65;
 
-export const Backdrop = ({ movies, scrollX }: any) => {
+export const Backdrop: FC<BackdropType> = ({ movies, scrollX }) => {
   return (
     <View style={styles.backdrop}>
       <FlatList
         data={movies.reverse()}
-        keyExtractor={item => item.key + "-backdrop"}
+        keyExtractor={(item) => item.key + '-backdrop'}
         removeClippedSubviews={false}
         contentContainerStyle={{ width, height: BACKDROP_HEIGHT }}
         renderItem={({ item, index }) => {
-
           if (!item.backdrop) {
             return null;
           }
@@ -30,43 +39,36 @@ export const Backdrop = ({ movies, scrollX }: any) => {
           return (
             <Animated.View
               removeClippedSubviews={false}
-              style={[
-                styles.AnimatedContainer,
-                { width: translateX }
-              ]}>
-              <Image
-                source={{ uri: item.backdrop }}
-                style={styles.backdrop}
-              />
+              style={[styles.AnimatedContainer, { width: translateX }]}>
+              <Image source={{ uri: item.backdrop }} style={styles.backdrop} />
             </Animated.View>
           );
         }}
       />
 
       <LinearGradient
-        colors={["rgba(0, 0, 0, 0)", "white"]}
+        colors={['rgba(0, 0, 0, 0)', 'white']}
         style={styles.linearGradient}
       />
     </View>
   );
 };
 
-
 const styles = StyleSheet.create({
   backdrop: {
     height: BACKDROP_HEIGHT,
     width,
-    position: "absolute",
+    position: 'absolute',
   },
   linearGradient: {
     height: BACKDROP_HEIGHT,
     width,
-    position: "absolute",
+    position: 'absolute',
     bottom: 0,
   },
   AnimatedContainer: {
-    position: "absolute",
+    position: 'absolute',
     height,
-    overflow: "hidden",
+    overflow: 'hidden',
   },
 });

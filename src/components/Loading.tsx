@@ -1,6 +1,5 @@
-import * as React from "react";
-import { StyleSheet, Text, View } from "react-native";
-
+import * as React from 'react';
+import { StyleSheet, Text, View } from 'react-native';
 
 export const Loading = () => (
   <View style={styles.loadingContainer}>
@@ -11,13 +10,13 @@ export const Loading = () => (
 const styles = StyleSheet.create({
   loadingContainer: {
     flex: 1,
-    alignItems: "center",
-    justifyContent: "center",
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   paragraph: {
     margin: 24,
     fontSize: 18,
-    fontWeight: "bold",
-    textAlign: "center",
+    fontWeight: 'bold',
+    textAlign: 'center',
   },
 });
