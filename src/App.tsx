@@ -24,15 +24,22 @@ export const App: FC = () => {
   const scrollX = useRef(new Animated.Value(0)).current;
 
   useEffect(() => {
-    const fetchData: FetchDataType = async () => {
-      const moviesList = await getMovies();
-      setMovies([{ key: 'empty-left' }, ...moviesList, { key: 'empty-right' }]);
-    };
+    let isMounted = true;
 
-    if (!movies.length) {
+    if (!movies.length && isMounted) {
       fetchData();
     }
+
+    return () => {
+      isMounted = false;
+    };
   }, [movies]);
+
+  const fetchData: FetchDataType = async () => {
+    const moviesList = await getMovies();
+
+    setMovies([{ key: 'empty-left' }, ...moviesList, { key: 'empty-right' }]);
+  };
 
   if (!movies.length) {
     return <Loading />;
