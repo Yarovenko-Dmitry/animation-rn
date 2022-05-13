@@ -1,30 +1,18 @@
 import * as React from 'react';
 import { FC } from 'react';
 
-import {
-  Animated,
-  Dimensions,
-  FlatList,
-  Image,
-  Platform,
-  StyleSheet,
-  View,
-} from 'react-native';
+import { Animated, FlatList, Image, StyleSheet, View } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 
+import { BACKDROP_HEIGHT, height, ITEM_SIZE, width } from '../constants';
 import { BackdropType } from '../types';
-
-const { height, width } = Dimensions.get('window');
-
-const ITEM_SIZE = Platform.OS === 'ios' ? width * 0.72 : width * 0.74;
-const BACKDROP_HEIGHT = height * 0.65;
 
 export const Backdrop: FC<BackdropType> = ({ movies, scrollX }) => {
   return (
     <View style={styles.backdrop}>
       <FlatList
         data={movies.reverse()}
-        keyExtractor={item => item.key + '-backdrop'}
+        keyExtractor={item => `${item.key}-backdrop`}
         removeClippedSubviews={false}
         contentContainerStyle={{ height: BACKDROP_HEIGHT, width }}
         renderItem={({ index, item }) => {

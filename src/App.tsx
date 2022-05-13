@@ -3,9 +3,7 @@ import { FC, useEffect, useRef, useState } from 'react';
 
 import {
   Animated,
-  Dimensions,
   Image,
-  Platform,
   StatusBar,
   StyleSheet,
   Text,
@@ -18,18 +16,13 @@ import { Genres } from './components/Genres';
 import { Loading } from './components/Loading';
 import { Rating } from './components/Rating';
 
+import { EMPTY_ITEM_SIZE, isIos, ITEM_SIZE, SPACING } from './constants';
 import { FetchDataType, MovieType } from './types';
-
-const { width } = Dimensions.get('window');
-
-const SPACING = 10;
-const isIos = Platform.OS === 'ios';
-const ITEM_SIZE = isIos ? width * 0.72 : width * 0.74;
-const EMPTY_ITEM_SIZE = (width - ITEM_SIZE) / 2;
 
 export const App: FC = () => {
   const [movies, setMovies] = useState<MovieType[]>([]);
   const scrollX = useRef(new Animated.Value(0)).current;
+
   useEffect(() => {
     const fetchData: FetchDataType = async () => {
       const moviesList = await getMovies();
