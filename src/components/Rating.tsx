@@ -11,7 +11,7 @@ export const Rating: FC<RatingType> = ({ rating }) => {
     <View style={styles.rating}>
       <Text style={styles.ratingNumber}>{rating}</Text>
       <RatingStars
-        type="star"
+        type='star'
         ratingCount={5}
         startingValue={rating ? rating / 2 : 0}
         imageSize={20}

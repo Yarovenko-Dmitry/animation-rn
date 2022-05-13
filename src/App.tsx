@@ -59,7 +59,7 @@ export const App: FC = () => {
         renderToHardwareTextureAndroid
         contentContainerStyle={styles.contentContainer}
         snapToInterval={ITEM_SIZE}
-        snapToAlignment="start"
+        snapToAlignment='start'
         onScroll={Animated.event(
           [{ nativeEvent: { contentOffset: { x: scrollX } } }],
           { useNativeDriver: false },
